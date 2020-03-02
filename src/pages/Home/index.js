@@ -1,146 +1,67 @@
 import React from 'react'
 import {Route} from 'react-router-dom'
-//导入tabBar组件
+// 导入tabBar组件
 import { TabBar } from 'antd-mobile'
 // 引入子路由
 import Index from '../Index'
 import HouseList from '../HouseList'
 import News from '../News'
 import Profile from '../Profile'
+// 导入样式文件
+import './index.css'
+
+// tabBars的数据是静态的，所以不需要卸载state中，还可以减轻state
+const tabBars = [
+  { title:"首页", key:"Index", icon:"icon-ind", selected:"/home/index"},
+  { title:"找房", key:"HouseList", icon:"icon-findHouse", selected:"/home/houselist"},
+  { title:"资讯", key:"News", icon:"icon-infom", selected:"/home/news"},
+  { title:"我的", key:"Profile", icon:"icon-my", selected:"/home/profile"}
+]
 export default class Home extends React.Component {
   state = {
-    //指定高亮
-    selectedTab: 'blueTab',
-    //是否隐藏tabBar
-    hidden: false,
-    //是否全屏显示
-    fullScreen: true,
+    //指定高亮,利用url中pathname的唯一性，动态渲染selected，确保刷新之后高亮的内容还是本路由的标签
+    selectedTab: this.props.location.pathname,
   }
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     return (
-      <div>
+      <div className="home">
         {/* 变化的上半部分 */}
         {/* 注意：子路由的path以父路由开头 */}
         <Route path="/home/index" component={Index}></Route>
         <Route path="/home/houselist" component={HouseList}></Route>
         <Route path="/home/news" component={News}></Route>
         <Route path="/home/profile" component={Profile}></Route>
-        {/* 不变的底部 */}
-        <div style={this.state.fullScreen ? { position: 'fixed', height: '100%', width: '100%', top: 0 } : { height: 400 }}>
+        {/* 不变的底部 
+        此处插件中原油数据height100%，会导致盖在路由内容的上方，导致路由内容无法点击到，所以要去掉
+        */}
+        <div style={{ position: 'fixed', width: '100%', bottom: 0 }}>
         <TabBar
           unselectedTintColor="#949494"
           tintColor="#21B97A"
           barTintColor="white"
-          hidden={this.state.hidden}
         >
-          <TabBar.Item
-            title="首页"
-            key="Index"
-            icon={<div style={{
-              width: '22px',
-              height: '22px'}}
-              className="iconfont icon-ind"
-            />
-            }
-            selectedIcon={<div style={{
-              width: '22px',
-              height: '22px'}}
-              className="iconfont icon-ind"
-            />
-            }
-            selected={this.state.selectedTab === 'blueTab'}
-            onPress={() => {
-              //切换路由
-              this.props.history.push('/home/index')
-              this.setState({
-                selectedTab: 'blueTab',
-              });
-            }}
-          >
-          </TabBar.Item>
-          <TabBar.Item
-            icon={
-              <div style={{
-                width: '22px',
-                height: '22px'}}
-                className="iconfont icon-findHouse"
-              />
-            }
-            selectedIcon={
-              <div style={{
-                width: '22px',
-                height: '22px'}}
-                className="iconfont icon-findHouse"
-              />
-            }
-            title="找房"
-            key="zhaofang"
-            selected={this.state.selectedTab === 'redTab'}
-            onPress={() => {
-              //切换路由
-              this.props.history.push('/home/houselist')
-              this.setState({
-                selectedTab: 'redTab',
-              });
-            }}
-          >
-          </TabBar.Item>
-          <TabBar.Item
-            icon={
-              <div style={{
-                width: '22px',
-                height: '22px'}}
-                className="iconfont icon-infom"
-              />
-            }
-            selectedIcon={
-              <div style={{
-                width: '22px',
-                height: '22px'}}
-                className="iconfont icon-infom"
-              />
-            }
-            title="资讯"
-            key="zixun"
-            selected={this.state.selectedTab === 'greenTab'}
-            onPress={() => {
-              //切换路由
-              this.props.history.push('/home/news')
-              this.setState({
-                selectedTab: 'greenTab',
-              });
-            }}
-          >
-          </TabBar.Item>
-          <TabBar.Item
-            icon={              
-              <div style={{
-                width: '22px',
-                height: '22px'}}
-                className="iconfont icon-my"
-              />
-            }
-            selectedIcon={              
-              <div style={{
-                width: '22px',
-                height: '22px'}}
-                className="iconfont icon-my"
-              />
-            }
-            title="我的"
-            key="Profile"
-            selected={this.state.selectedTab === 'yellowTab'}
-            onPress={() => {
-              //切换路由
-              this.props.history.push('/home/profile')
-              this.setState({
-                selectedTab: 'yellowTab',
-              });
-            }}
-          >
-          </TabBar.Item>
+          {/* 遍历tabBars中的数据，将其动态渲染生成，做到代码优化 */}
+          {
+            tabBars.map(item => (
+              <TabBar.Item
+                title={item.title}
+                key={item.key}
+                icon={<div className={`iconfont ${item.icon}`} />}
+                selectedIcon={<div className={`iconfont ${item.icon}`} />}
+                selected={this.state.selectedTab === item.selected}
+                onPress={() => {
+                  //切换路由
+                  this.props.history.push(item.selected)
+                  this.setState({
+                    selectedTab: item.selected,
+                  })
+                }}
+              >
+              </TabBar.Item>
+            ))
+          }
         </TabBar>
         </div>
       </div>

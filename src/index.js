@@ -6,6 +6,8 @@ import './assets/fonts/iconfont.css'
 import 'antd-mobile/dist/antd-mobile.css'
 // 自己的样式文件写在后面，才能覆盖前面的
 import './index.css'
+import axios from 'axios'
+axios.defaults.baseURL = 'https://api.example.com'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 

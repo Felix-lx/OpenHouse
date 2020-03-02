@@ -12,7 +12,7 @@ import './index.css'
 
 // tabBars的数据是静态的，所以不需要卸载state中，还可以减轻state
 const tabBars = [
-  { title:"首页", key:"Index", icon:"icon-ind", selected:"/home/index"},
+  { title:"首页", key:"Index", icon:"icon-ind", selected:"/home"},
   { title:"找房", key:"HouseList", icon:"icon-findHouse", selected:"/home/houselist"},
   { title:"资讯", key:"News", icon:"icon-infom", selected:"/home/news"},
   { title:"我的", key:"Profile", icon:"icon-my", selected:"/home/profile"}
@@ -22,14 +22,21 @@ export default class Home extends React.Component {
     //指定高亮,利用url中pathname的唯一性，动态渲染selected，确保刷新之后高亮的内容还是本路由的标签
     selectedTab: this.props.location.pathname,
   }
-
+  // 如果路由地址发生改变，会触发组件的更新阶段，对应的高亮也会发生改变
+  componentDidUpdate(prevProps) {
+    if( prevProps.location.pathname !== this.props.location.pathname) {
+      this.setState({
+        selectedTab: this.props.location.pathname
+      })
+    }
+  }
   render() {
     // console.log(this.props)
     return (
       <div className="home">
         {/* 变化的上半部分 */}
-        {/* 注意：子路由的path以父路由开头 */}
-        <Route path="/home/index" component={Index}></Route>
+        {/* 注意：子路由的path以父路由开头,首页作为子路由可以使用和父路由的path保持一致，这是不冲突的 */}
+        <Route path="/home" exact component={Index}></Route>
         <Route path="/home/houselist" component={HouseList}></Route>
         <Route path="/home/news" component={News}></Route>
         <Route path="/home/profile" component={Profile}></Route>
@@ -54,9 +61,10 @@ export default class Home extends React.Component {
                 onPress={() => {
                   //切换路由
                   this.props.history.push(item.selected)
-                  this.setState({
-                    selectedTab: item.selected,
-                  })
+                  // 添加了componentDidUpdate钩子函数，这段代码可以省略，因为切换路由以后会触发钩子函数，钩子函数中已经有selectedTab设置的代码了，所以重复了，可以去除
+                  // this.setState({
+                  //   selectedTab: item.selected,
+                  // })
                 }}
               >
               </TabBar.Item>

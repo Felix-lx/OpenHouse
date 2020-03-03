@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Redirect} from 'react-router-dom'
 //导入页面组件
 import Home from './pages/Home'
 import CityList from './pages/City'
+import MapShow from './pages/MapShow'
+import Search from './pages/Search'
 export default function App() {
   return (
     <Router>
@@ -12,7 +14,9 @@ export default function App() {
       <Route exact path="/" render={()=> <Redirect to="/home" />}></Route>
       {/* 路由规则 */}
       <Route path="/home" component={Home}></Route>
-      <Route path="/city" component={CityList}></Route>
+      <Route path="/citylist" component={CityList}></Route>
+      <Route path="/map" component={MapShow}></Route>
+      <Route path="/search" component={Search}></Route>
     </Router>
   )
 }

@@ -1,6 +1,49 @@
-// 导航栏
+// 搜索框
 .index{
-  .menus{
+  .swiper{
+    position: relative;
+    .nav-header{
+      padding: 10px;
+      position: absolute;
+      top: 20px;
+      z-index: 1;
+      width: 100%;
+      &-left{
+        flex: 1;
+        background-color: #fff;
+        padding: 10px;
+        margin-right: 5px;
+        border-radius: 4px;
+        .location{
+          padding-right: 10px;
+          border-right: 1px solid #ccc;
+          .icon-arrow{
+            font-size: 14px;
+            vertical-align: middle;
+          }
+        }
+        .form{
+          color: #aaa;
+          .icon-seach{
+            padding: 0 10px;
+            font-size: 14px;
+            vertical-align: middle;
+          }
+        }
+      }
+      .icon-map{
+        font-size: 32px;
+        color: #fff;
+      }
+    }
+  }
+
+}
+
+
+// 导航栏
+.menus{
+  .menus-content{
     text-align: center;
     padding: 15px 0;
     img{

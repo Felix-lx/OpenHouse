@@ -133,16 +133,33 @@ export default class Index extends Component {
     return (
       <div className="index">
         {/* 轮播图 */}
-        {this.renderSwiper()}
+        <div className="swiper">
+          <Flex className="nav-header">
+            <Flex className="nav-header-left">
+              <div className="location" onClick={()=>this.props.history.push('/citylist')}>
+                <span>上海</span>
+                <i className="iconfont icon-arrow"></i>
+              </div>
+              <div className="form" onClick={()=>this.props.history.push('/search')}>
+              <i className="iconfont icon-seach"></i>
+              <span>请输入小区或地址</span>
+              </div>
+            </Flex>
+            <i className="iconfont icon-map" onClick={()=>this.props.history.push('/map')}></i>
+          </Flex>
+          {this.renderSwiper()}
+        </div>
         {/* 导航 */}
-        <Flex className="menus">
-          {menus.map(item => (
-            <Flex.Item key={item.title} onClick={()=>{this.props.history.push(item.path)}}>
-              <img src={item.imgSrc} alt=""/>
-              <h3>{item.title}</h3>
-            </Flex.Item>
-          ))}
-        </Flex>
+        <div className="menus">
+          <Flex className="menus-content">
+            {menus.map(item => (
+              <Flex.Item key={item.title} onClick={()=>{this.props.history.push(item.path)}}>
+                <img src={item.imgSrc} alt=""/>
+                <h3>{item.title}</h3>
+              </Flex.Item>
+            ))}
+          </Flex>
+        </div>
         {/* 租房小组 */}
         <div className="groups">
           <Flex className="groups-title" justify="between">

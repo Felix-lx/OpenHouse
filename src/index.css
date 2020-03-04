@@ -6,10 +6,18 @@ body{
   color: #333;
   background-color: #fff;
 }
+#root,
+.App{
+  height: 100%;
+}
 *{
   box-sizing: border-box;
-  /* 解决轮播图滑动chrome浏览器报错的问题。是因为浏览器不再检测阻止默认行为的原因 */
-  touch-action: none;
+  /* 不能加在这里，会导致页面无法拖动 */
+  /* touch-action: none; */
   margin: 0;
   padding: 0;
+}
+ul,
+ol{
+  list-style-type: none;
 }

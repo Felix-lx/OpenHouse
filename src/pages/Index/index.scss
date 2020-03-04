@@ -2,6 +2,9 @@
 .index{
   .swiper{
     position: relative;
+    /* 解决轮播图滑动chrome浏览器报错的问题。是因为浏览器不再检测阻止默认行为的原因 */
+    // 注意不能写在全局样式的*中，会导致页面无法拖动
+    touch-action: none;
     .nav-header{
       padding: 10px;
       position: absolute;

@@ -11,6 +11,9 @@ import nav4 from '../../assets/images/nav-4.png'
 // 导入样式文件
 import "./index.scss"
 
+// 导入方法
+import {getCurrentCity} from '../../utils'
+
 // 导航菜单的代码优化
 const menus = [
   { title:'整租', imgSrc:nav1, path:'/home/houselist' },
@@ -18,6 +21,7 @@ const menus = [
   { title:'地图找房', imgSrc:nav3, path:'/home/houselist' },
   { title:'去出租', imgSrc:nav4, path:'/home/houselist' },
 ]
+
 export default class Index extends Component {
   state = {
     // 默认数据，因为没有图片，所以会报404的错误，如果data删掉，轮播图就不会自动播放了
@@ -27,14 +31,25 @@ export default class Index extends Component {
     isLoaded:false,
     area:'AREA|88cff55c-aaa4-e2e0',
     groups:[],
-    news:[]
+    news:[],
+    cityName:'定位中'
   }
   componentDidMount() {
     this.getSwiper()
     this.getGroups()
     this.getNews()
-  }
+    this.getCity()
 
+  }
+  // 获取城市信息
+  getCity() {
+    // 获取当前所在城市的名称
+    getCurrentCity( data => {
+      this.setState({
+        cityName: data.label
+      })
+    })
+  }
   // 获取轮播图图片的请求
   async getSwiper() {
     const res = await axios.get('http://localhost:8080/home/swiper')
@@ -137,7 +152,7 @@ export default class Index extends Component {
           <Flex className="nav-header">
             <Flex className="nav-header-left">
               <div className="location" onClick={()=>this.props.history.push('/citylist')}>
-                <span>上海</span>
+                <span>{this.state.cityName}</span>
                 <i className="iconfont icon-arrow"></i>
               </div>
               <div className="form" onClick={()=>this.props.history.push('/search')}>
